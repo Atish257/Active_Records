@@ -71,7 +71,7 @@ class collection
         $class = static::$modelName;
         $statement->setFetchMode(PDO::FETCH_CLASS, $class);
         $recordsSet =  $statement->fetchAll();
-        return $recordsSet[0];
+        return $recordsSet;
       }
 
 }
@@ -190,6 +190,15 @@ $accrecords = accounts::findAll();
 display::printtable($accrecords);
 echo"<h2>Todos Table</h2>";
 $todosrecord = todos::findALL();
+display::printtable($todosrecord);
+echo "<br><hr><br>";
+
+echo "<h1>Selection of a Particular record </h1>";
+echo"<h2>Accounts Table</h2>";
+$accrecords = accounts::findOne(2);
+display::printtable($accrecords);
+echo"<h2>Todos Table</h2>";
+$todosrecord = todos::findOne(5);
 display::printtable($todosrecord);
 echo "<br><hr><br>";
 
