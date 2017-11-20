@@ -57,7 +57,7 @@ class collection
         $statement = $db->prepare($sql);
         $statement->execute();
         $class = static::$modelName;
-        $statement->setFetchMode(PDO::FETCH_CLASS, $class);
+        $statement->setFetchMode(PDO::FETCH_CLASS, $class); 
         $recordsSet =  $statement->fetchAll();
         return $recordsSet;
       }
@@ -74,6 +74,7 @@ class collection
         return $recordsSet;
       }
 
+
 }
 
 class accounts extends collection
@@ -88,40 +89,51 @@ class todos extends collection
 class model 
 {
     protected $tableName;
-    public function save()
+    public function save($id)
     {
-        if ($this->id = '') 
+        if ($id=='') 
         {
-            $sql = $this->insert();
+         $sql = $this->insert();
         }else
         {
-            $sql = $this->update();
+         $sql = $this->update($id);
         }
         $db = dbConn::getConnection();
         $statement = $db->prepare($sql);
         $statement->execute();
-        $tableName = get_called_class();
-        $array = get_object_vars($this);
-        $columnString = implode(',', $array);
-        $valueString = ":".implode(',:', $array);
-       // echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";
-        echo 'I just saved record: ' . $this->id;
+        echo 'One record saved: ' . $this->id;
     }
+
     private function insert() 
-    {
-        $sql = 'sometthing';
-        return $sql;
+    { 
+      $tableName = $this->tableName;
+      //$array = get_object_vars($tableName);
+      //$columnString = implode(',', $array);
+      //$valueString = ":".implode(',:', $array);
+      /*echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";*/
+      $sql = " INSERT INTO ".$tableName." (id,email,fname,lname,phone,birthday,gender,password)
+      VALUES (12,'ramons@gmail.com','Ramon','Smith','999-444-5566',1997-08-25,'Male','12345')";
+      return $sql;
     }
-    private function update() 
-    {
-        $sql = 'sometthing';
+
+    private function update($id) 
+    {   
+        $tableName = $this->tableName;
+        $sql = " UPDATE ".$tableName." SET lname='Smith' WHERE id=".$id;
         return $sql;
         echo 'I just updated record' . $this->id;
     }
+
     public function delete() 
     {
-        echo 'I just deleted record' . $this->id;
+      $tableName = $this->tableName;
+      $sql = "DELETE FROM ".$tableName." WHERE id = 9"; 
+      $db = dbConn::getConnection();
+      $statement = $db->prepare($sql);
+      $statement->execute();  
+      echo 'I just deleted record' . $this->id;
     }
+
 }
 
 class account extends model 
@@ -194,15 +206,27 @@ display::printtable($todosrecord);
 echo "<br><hr><br>";
 
 echo "<h1>Selection of a Particular record </h1>";
-echo"<h2>Accounts Table</h2>";
+echo"<h2>Accounts Table id=2</h2>";
 $accrecords = accounts::findOne(2);
 display::printtable($accrecords);
-echo"<h2>Todos Table</h2>";
-$todosrecord = todos::findOne(5);
+echo"<h2>Todos Table id=4</h2>";
+$todosrecord = todos::findOne(4);
 display::printtable($todosrecord);
 echo "<br><hr><br>";
 
+//echo "<h1>Insert new Record </h1>";
+//echo"<h2>Accounts Table </h2>";
+//$objacc = new account();
+//$accrecords = $objacc->save();
+//echo "<br><hr><br>";
 
+//echo "<h1>Update a Record </h1>";
+//echo"<h2>Accounts Table </h2>";
+//$objacc = new account();
+//$accrecords = $objacc->save(12);
 
+ echo "<h2>Delete a record</h2>";
+ $accobj = new account();
+ $accobj->delete();
 ?>
 
