@@ -177,7 +177,7 @@ class display
 {
   static public function printtable($result)//static method to print the table
   {
-  echo "<table border=\"1\">";
+  echo "<table border=\"5\">";
    $i=0;
   foreach ($result as $row) 
   {
