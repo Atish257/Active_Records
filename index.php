@@ -119,7 +119,7 @@ class model
     private function update($id) 
     {   
         $tableName = $this->tableName;
-        $sql = " UPDATE ".$tableName." SET lname='Smith' WHERE id=".$id;
+        $sql = " UPDATE ".$tableName." SET lname='Pierce' WHERE id=".$id;
         return $sql;
         echo 'I just updated record' . $this->id;
     }
@@ -127,11 +127,11 @@ class model
     public function delete() 
     {
       $tableName = $this->tableName;
-      $sql = "DELETE FROM ".$tableName." WHERE id = 9"; 
+      $sql = "DELETE FROM ".$tableName." WHERE id = 12"; 
       $db = dbConn::getConnection();
       $statement = $db->prepare($sql);
       $statement->execute();  
-      echo 'I just deleted record' . $this->id;
+      echo 'One record deleted' . $this->id;
     }
 
 }
@@ -169,7 +169,7 @@ class todo extends model
     $this->tableName = 'todos';  
   }
   static $columns = 'id,owneremail,ownerid,createdate,duedate,message,isdone,';
-  static $values = "9,'james@gmail.com','5','Smith','2017-08-25 00:00:00','2017-11-04 00:00:00','This is it',1";
+  static $values = "9,'james@gmail.com','5','2017-08-25 00:00:00','2017-11-04 00:00:00','This is it',1";
 }
 
 
@@ -227,17 +227,17 @@ $accrecords = accounts::findAll();
 display::printtable($accrecords);
 echo "<br><hr><br>";
 
-//echo "<h1>Update a Record </h1>";
-//$objacc = new account();
-//$accrecords = $objacc->save(12);
-//$accrecords = accounts::findAll();
-//display::printtable($accrecords);
-//echo "<br><hr><br>";
+echo "<h1>Update the Record </h1>";
+$objacc = new account();
+$accrecords = $objacc->save(12);
+$accrecords = accounts::findAll();
+display::printtable($accrecords);
+echo "<br><hr><br>";
 
-
-
- //echo "<h2>Delete a record</h2>";
- //$accobj = new account();
- //$accobj->delete();
-?>
+echo "<h2>Delete a record</h2>";
+$accobj = new account();
+$accobj->delete();
+$accrecords = accounts::findAll();
+display::printtable($accrecords);
+?> 
 
