@@ -96,6 +96,7 @@ class model
          $sql = $this->insert();
         }else
         {
+
          $sql = $this->update($id);
         }
         $db = dbConn::getConnection();
@@ -111,8 +112,7 @@ class model
       //$columnString = implode(',', $array);
       //$valueString = ":".implode(',:', $array);
       /*echo "INSERT INTO $tableName (" . $columnString . ") VALUES (" . $valueString . ")</br>";*/
-      $sql = " INSERT INTO ".$tableName." (id,email,fname,lname,phone,birthday,gender,password)
-      VALUES (12,'ramons@gmail.com','Ramon','Smith','999-444-5566',1997-08-25,'Male','12345')";
+      $sql = " INSERT INTO ".$tableName." (".static::$columns.") VALUES (".static::$values.")";
       return $sql;
     }
 
@@ -150,6 +150,9 @@ class account extends model
   {
     $this->tableName = 'accounts';
   }
+
+  static $columns = 'id,email,fname,lname,phone,birthday,gender,password';
+  static $values = "12,'ramons@gmail.com','Ramon','Smith','999-444-5566',1997-08-25,'Male','12345'";
 }
 
 class todo extends model 
@@ -165,6 +168,8 @@ class todo extends model
   {
     $this->tableName = 'todos';  
   }
+  static $columns = 'id,owneremail,ownerid,createdate,duedate,message,isdone,';
+  static $values = "9,'james@gmail.com','5','Smith','2017-08-25 00:00:00','2017-11-04 00:00:00','This is it',1";
 }
 
 
@@ -214,19 +219,25 @@ $todosrecord = todos::findOne(4);
 display::printtable($todosrecord);
 echo "<br><hr><br>";
 
-//echo "<h1>Insert new Record </h1>";
-//echo"<h2>Accounts Table </h2>";
-//$objacc = new account();
-//$accrecords = $objacc->save();
-//echo "<br><hr><br>";
+echo "<h1>Insert new Record </h1>";
+echo"<h2>Accounts Table </h2>";
+$objacc = new account();
+$accrecords = $objacc->save('');
+$accrecords = accounts::findAll();
+display::printtable($accrecords);
+echo "<br><hr><br>";
 
 //echo "<h1>Update a Record </h1>";
-//echo"<h2>Accounts Table </h2>";
 //$objacc = new account();
 //$accrecords = $objacc->save(12);
+//$accrecords = accounts::findAll();
+//display::printtable($accrecords);
+//echo "<br><hr><br>";
 
- echo "<h2>Delete a record</h2>";
- $accobj = new account();
- $accobj->delete();
+
+
+ //echo "<h2>Delete a record</h2>";
+ //$accobj = new account();
+ //$accobj->delete();
 ?>
 
